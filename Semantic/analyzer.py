@@ -219,11 +219,11 @@ def Semantic_Analysis(lexical, rule):
         f.eKind = FUNCTION_
         f._ = Function(T_._.type,LP_._.list,f._.nIndex,LP_.nSize,LP_.nSize)
         curFunction = f
-        generated_code.write("BEGIN_FUNC "+str(f._.nIndex)+" "+str(f._.nParams)+"\n")
+        generated_code.write(f"BEGIN_FUNC {f._.nIndex} {f._.nParams}\n")
 
     elif rule == DF_RULE:
         EndBlock()
-        generated_code.write("END_FUNC"+"\n")
+        generated_code.write("END_FUNC\n")
 
     elif rule == U_IF_RULE:
         MT_ = StackSem.pop()
@@ -231,7 +231,7 @@ def Semantic_Analysis(lexical, rule):
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
-            generated_code.write("L"+str(MT_._.label)+"\n")
+            generated_code.write(f"L{MT_._.label}\n")
         
     elif rule == U_IF_ELSE_U_RULE:
         ME_ = StackSem.pop()
@@ -240,7 +240,7 @@ def Semantic_Analysis(lexical, rule):
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
-        generated_code.write("L"+str(ME_._.label)+"\n")
+        generated_code.write(f"L{ME_._.label}\n")
 
     elif rule == M_IF_ELSE_M_RULE:
         ME_ = StackSem.pop()
@@ -249,7 +249,7 @@ def Semantic_Analysis(lexical, rule):
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
-        generated_code.write("L"+str(ME_._.label)+"\n")
+        generated_code.write(f"L{ME_._.label}\n")
 
     elif rule == M_WHILE_RULE:
         MT_ = StackSem.pop()
@@ -260,7 +260,7 @@ def Semantic_Analysis(lexical, rule):
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
-        generated_code.write("\tJMP_BW L"+'0'+"\nL"+str(MT_._.label)+"\n")        
+        generated_code.write(f"\tJMP_BW L'0'\nL{MT_._.label}n")        
 
     elif rule == M_DO_WHILE_RULE:
         E_ = StackSem.pop()
@@ -268,7 +268,7 @@ def Semantic_Analysis(lexical, rule):
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
-        generated_code.write("\tNOT\n\tTJMP_BW L"+str(MW_._.label)+"\n")  
+        generated_code.write(f"\tNOT\n\tTJMP_BW L{MW_._.label}\n")  
 
     elif rule == E_AND_RULE:
         L_ = StackSem.pop()
@@ -279,7 +279,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
         E0_ = t_attrib(E,None,E(bool_))
         StackSem.append(E0_)
-        generated_code.write("\tAND"+"\n")
+        generated_code.write(f"\tAND\n")
     
     elif rule == E_OR_RULE:
         L_ = StackSem.pop()
@@ -290,7 +290,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
         E0_ = t_attrib(E,None,E(bool_))
         StackSem.append(E0_)
-        generated_code.write("\tOR"+"\n")
+        generated_code.write(f"\tOR\n")
 
     elif rule == E_L_RULE:
         L_ = StackSem.pop()
@@ -304,7 +304,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,L(bool_))
         StackSem.append(L0_)
-        generated_code.write("\tLT"+"\n")
+        generated_code.write(f"\tLT\n")
 
     elif rule == L_GREATER_THAN_RULE:
         R_ = StackSem.pop()
@@ -313,7 +313,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,bool_)
         StackSem.append(L0_)
-        generated_code.write("\tGT"+"\n")
+        generated_code.write(f"\tGT\n")
 
     elif rule == L_LESS_EQUAL_RULE:
         R_ = StackSem.pop()
@@ -322,7 +322,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,bool_)
         StackSem.append(L0_)
-        generated_code.write("\tLE"+"\n")
+        generated_code.write(f"\tLE\n")
 
     elif rule == L_GREATER_EQUAL_RULE:
         R_ = StackSem.pop()
@@ -331,7 +331,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,bool_)
         StackSem.append(L0_)
-        generated_code.write("\tGE"+"\n")
+        generated_code.write(f"\tGE\n")
 
     elif rule == L_EQUAL_EQUAL_RULE:
         R_ = StackSem.pop()
@@ -340,7 +340,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,bool_)
         StackSem.append(L0_)
-        generated_code.write("\tEQ"+"\n")
+        generated_code.write("\tEQ\n")
 
     elif rule == L_NOT_EQUAL_RULE:
         R_ = StackSem.pop()
@@ -349,7 +349,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_TYPE_MISMATCH)
         L0_ = t_attrib(L,None,bool_)
         StackSem.append(L0_)
-        generated_code.write("\tNE"+"\n")
+        generated_code.write("\tNE\n")
 
     elif rule == L_R_RULE:
         R_ = StackSem.pop()
@@ -365,7 +365,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         R0_ = t_attrib(R,None,R(R1_._.type))
         StackSem.append(R0_)
-        generated_code.write("\tADD"+"\n")
+        generated_code.write("\tADD\n")
 
     elif rule == R_MINUS_RULE:
         Y_ = StackSem.pop()
@@ -376,7 +376,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         R0_ = t_attrib(R,None,R(R1_._.type))
         StackSem.append(R0_)
-        generated_code.write("\tSUB"+"\n")
+        generated_code.write("\tSUB\n")
 
     elif rule == R_Y_RULE:
         Y_ = StackSem.pop()
@@ -392,7 +392,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         Y0_ = t_attrib(Y,None,Y(Y1_._.type))
         StackSem.append(Y0_)
-        generated_code.write("\tMUL"+"\n")
+        generated_code.write("\tMUL\n")
 
     elif rule == Y_DIVIDE_RULE:
         F_ = StackSem.pop()
@@ -403,7 +403,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         Y0_ = t_attrib(Y,None,Y(Y1_._.type))
         StackSem.append(Y0_)
-        generated_code.write("\tDIV"+"\n")
+        generated_code.write("\tDIV\n")
 
     elif rule == Y_F_RULE:
         F_ = StackSem.pop()
@@ -412,12 +412,10 @@ def Semantic_Analysis(lexical, rule):
     
     elif rule == F_LV_RULE:
         LV_ = StackSem.pop()
-        # print(LV_._.type._.nSize)
-        # n = LV_._.type._.nSize 
         n = 0
         F_ = t_attrib(F,None,F(LV_._.type))
         StackSem.append(F_)
-        generated_code.write("\tDE_REF "+str(n)+"\n")
+        generated_code.write(f"\tDE_REF {n}\n")
     
     elif rule == F_LEFT_PLUS_PLUS_RULE:
         LV_ = StackSem.pop()
@@ -425,8 +423,8 @@ def Semantic_Analysis(lexical, rule):
         if not CheckTypes(t,int_):
             Error(lexical, ERR_INVALID_TYPE)
         F_ = t_attrib(F,None,F(int_))
-        generated_code.write("\tDUP\n\tDUP\n\tDE_REF 1"+"\n")
-        generated_code.write("\tINC\n\tSTORE REF 1\n\tDE_REF 1"+"\n")
+        generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
+        generated_code.write(f"\tINC\n\tSTORE REF 1\n\tDE_REF 1\n")
 
     elif rule == F_LEFT_MINUS_MINUS_RULE:
         LV_ = StackSem.pop()
@@ -435,8 +433,8 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         F_ = t_attrib(F,None,F(LV_._.type))
         StackSem.append(F_)
-        generated_code.write("\tDUP\n\tDUP\n\tDE_REF 1"+"\n")
-        generated_code.write("\tDEC\n\tSTORE_REF 1\n\tDE_REF 1"+"\n")
+        generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
+        generated_code.write(f"\tDEC\n\tSTORE_REF 1\n\tDE_REF 1\n")
 
     elif rule==F_RIGHT_PLUS_PLUS_RULE:
         LV_ = StackSem.pop()
@@ -445,9 +443,9 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         F_ = t_attrib(F,None,F(LV_._.type))
         StackSem.append(F_)
-        generated_code.write("\tDUP\n\tDUP\n\tDE_REF 1"+"\n")
-        generated_code.write("\tINC\n\tSTORE_REF 1\n\tDE_REF 1"+"\n")
-        generated_code.write("\tDEC"+"\n")
+        generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
+        generated_code.write(f"\tINC\n\tSTORE_REF 1\n\tDE_REF 1\n")
+        generated_code.write(f"\tDEC\n")
 
     elif rule == F_RIGHT_MINUS_MINUS_RULE:
         LV_ = StackSem.pop()
@@ -456,9 +454,9 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         F_ = t_attrib(F,None,F(t))
         StackSem.append(F_)
-        generated_code.write("\tDUP\n\tDUP\n\tDE_REF 1"+"\n")
-        generated_code.write("\tDEC\n\tSTORE_REF 1\n\tDE_REF 1"+"\n")
-        generated_code.write("\tINC"+"\n")
+        generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
+        generated_code.write(f"\tDEC\n\tSTORE_REF 1\n\tDE_REF 1\n")
+        generated_code.write(f"\tINC\n")
 
     elif rule == F_PARENTHESIS_E_RULE:
         E_ = StackSem.pop()
@@ -472,7 +470,7 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         F0_ = t_attrib(F,None,F(t))
         StackSem.append(F0_)
-        generated_code.write("\tNEG"+"\n")
+        generated_code.write(f"\tNEG\n")
 
     elif rule == F_NOT_F_RULE:
         F1_ = StackSem.pop()
@@ -481,26 +479,26 @@ def Semantic_Analysis(lexical, rule):
             Error(lexical, ERR_INVALID_TYPE)
         F0_ = t_attrib(F,None,F(t))
         StackSem.append(F0_)
-        generated_code.write("\tNOT"+"\n")
+        generated_code.write(f"\tNOT\n")
 
     elif rule == F_TRUE_RULE:
         TRU_ = StackSem.pop()
         F_ = t_attrib(F,None,F(bool_))
         StackSem.append(F_)
-        generated_code.write("\tLOAD_TRUE"+"\n")
+        generated_code.write(f"\tLOAD_TRUE\n")
 
     elif rule == F_FALSE_RULE:
         FALS_ = StackSem.pop()
         F_ = t_attrib(F,None,F(bool_))
         StackSem.append(F_)
-        generated_code.write("\tLOAD_FALSE"+"\n")
+        generated_code.write(f"\tLOAD_FALSE\n")
 
     elif rule == F_CHR_RULE:
         CHR_ = StackSem.pop()
         F_ = t_attrib(F,None,F(char_))
         StackSem.append(F_)
         n = lexical.secondary_Token
-        generated_code.write("\tLOAD_CONST "+str(constPool)+"\n")
+        generated_code.write(f"\tLOAD_CONST {constPool}\n")
         constPool+=1
 
     elif rule == F_STR_RULE:
@@ -508,7 +506,7 @@ def Semantic_Analysis(lexical, rule):
         F_ = t_attrib(F,None,F(string_))
         StackSem.append(F_)
         n = lexical.secondary_Token
-        generated_code.write("\tLOAD_CONST "+str(constPool)+"\n")
+        generated_code.write(f"\tLOAD_CONST {constPool}\n")
         constPool+=1
 
     elif rule == F_NUM_RULE:
@@ -516,7 +514,7 @@ def Semantic_Analysis(lexical, rule):
         F_ = t_attrib(F,None,F(int_))
         StackSem.append(F_)
         n = lexical.secondary_Token
-        generated_code.write("\tLOAD_CONST "+str(constPool)+"\n")
+        generated_code.write(f"\tLOAD_CONST {constPool}\n")
         constPool+=1
 
     elif rule == LV_DOT_RULE:
@@ -540,7 +538,7 @@ def Semantic_Analysis(lexical, rule):
                 LV0_ = t_attrib(LV,None,LV(p._.pType))
                 LV0_._.type._ = Type(None,p._.nSize)
         StackSem.append(LV0_)
-        generated_code.write("\tADD "+str(p._.nIndex)+"\n")
+        generated_code.write(f"\tADD {p._.nIndex}\n")
 
     elif rule == LV_SQUARE_RULE:
         E_ = StackSem.pop()
@@ -555,8 +553,8 @@ def Semantic_Analysis(lexical, rule):
         else:
             LV0_ = t_attrib(LV,None,LV(t._.pElemType))
             n = t._.pElemType._.nSize
-            generated_code.write("\tMUL "+str(n)+"\n")
-            generated_code.write("\tADD"+"\n")
+            generated_code.write(f"\tMUL {n}\n")
+            generated_code.write("\tADD\n")
         if not CheckTypes(E_._.type,int_):
             Error(lexical, ERR_INVALID_INDEX_TYPE)
         StackSem.append(LV0_)
@@ -571,7 +569,7 @@ def Semantic_Analysis(lexical, rule):
         else:
             LV_ = t_attrib(LV,None,LV(p._.pType))
             LV_._.type._ = Type(None,p._.nSize)
-            generated_code.write("\tLOAD_REF "+str(p._.nIndex)+"\n")
+            generated_code.write(f"\tLOAD_REF {p._.nIndex}\n")
         StackSem.append(LV_)
         
     elif rule == MC_RULE:
@@ -627,13 +625,13 @@ def Semantic_Analysis(lexical, rule):
             elif LE_._.n-1 > f._.nParams:
                 Error(lexical, ERR_TOO_MANY_ARG)
         StackSem.append(F_)
-        generated_code.write("\tCALL "+str(f._.nIndex)+"\n")
+        generated_code.write(f"\tCALL {f._.nIndex}\n")
 
     elif rule == MT_RULE:
         rLabel = newLabel()
         MT_ = t_attrib(MT,None,MT(rLabel))
         StackSem.append(MT_)
-        generated_code.write("\tTJMP_FW L"+str(rLabel)+"\n")
+        generated_code.write(f"\tTJMP_FW L{rLabel}\n")
 
     elif rule == ME_RULE:
         MT_ = StackSem[-1]
@@ -641,8 +639,8 @@ def Semantic_Analysis(lexical, rule):
         ME_._.label = rLabel
         ME_.t_nont = ME
         StackSem.append(ME_)
-        generated_code.write("\tTJMP_FW L"+str(rLabel)+"\n")
-        generated_code.write("L"+str(MT_._.label)+"\n")
+        generated_code.write(f"\tTJMP_FW L{rLabel}\n")
+        generated_code.write(f"L{MT_._.label}\n")
 
     elif rule == MW_RULE:
         rLabel = newLabel()
@@ -651,7 +649,7 @@ def Semantic_Analysis(lexical, rule):
         print(MW_._)
         MW_._.label = rLabel
         StackSem.append(MW_)
-        generated_code.write("L"+str(rLabel)+"\n")
+        generated_code.write(f"L{rLabel}\n")
 
     elif rule==M_BREAK_RULE:
         MT_ = StackSem[-1]
@@ -668,8 +666,8 @@ def Semantic_Analysis(lexical, rule):
         E0_._ = F(E_._.type)
         StackSem.append(E0_)
         if t._ == None or t._.nSize == None:
-            generated_code.write("\tSTORE_REF 1\n")
+            generated_code.write(f"\tSTORE_REF 1\n")
         else:
-            generated_code.write("\tSTORE_REF "+str(t._.nSize)+"\n")
+            generated_code.write(f"\tSTORE_REF {t._.nSize}\n")
 
     generated_code.close()
