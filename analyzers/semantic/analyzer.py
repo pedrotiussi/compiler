@@ -27,13 +27,13 @@ def SemanticAnalyzer(lexical, rule, output_path):
     if rule == IDD_RULE:
         name = lexical.secondary_Token
         try:
-            p = Search(name)
+            p = search(name)
         except:
             pass
         if p != None:
             Error(lexical, ERR_REDCL)
         else:
-            p = Define(name)
+            p = define(name)
         p.eKind = NO_KIND_DEF_
         IDD_.t_nont = IDD
         IDD_._ = ID(p,name)
@@ -41,10 +41,10 @@ def SemanticAnalyzer(lexical, rule, output_path):
 
     elif rule == IDU_RULE:
         name = lexical.secondary_Token
-        p = Find(name)
+        p = find(name)
         if p == None:
             Error(lexical, ERR_NO_DECL)
-            p = Define(name)
+            p = define(name)
         IDU_.t_nont = IDU
         IDU_._ = ID(p,name)
         StackSem.append(IDU_)
