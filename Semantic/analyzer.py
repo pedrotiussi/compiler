@@ -553,8 +553,8 @@ def Semantic_Analysis(lexical, rule):
                 Error(lexical, ERR_KIND_NOT_ARRAY)
             LV0_ = t_attrib(LV,None,LV(universal_))
         else:
-            LV0_ = t_attrib(LV,None,LV(t._.tipoElemento))
-            n = t._tipoElemento._.nSize
+            LV0_ = t_attrib(LV,None,LV(t._.pElemType))
+            n = t._.pElemType._.nSize
             generated_code.write("\tMUL "+str(n)+"\n")
             generated_code.write("\tADD"+"\n")
         if not CheckTypes(E_._.type,int_):
@@ -595,7 +595,7 @@ def Semantic_Analysis(lexical, rule):
             else:
                 if not CheckTypes(p._.tipo,E_._.type):
                     Error(lexical, ERR_PARAM_TYPE)
-                LE_._.param = p.pNext
+                LE_._.param = p.pNext   
                 LE_._.n = n + 1
         StackSem.append(LE_)
     
