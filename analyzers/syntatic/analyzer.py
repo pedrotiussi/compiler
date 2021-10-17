@@ -21,7 +21,7 @@ class SyntaticAnalyzer:
         STACK = []
         state = 0
         STACK.append(state)
-        readToken = self.lexical.next_token()
+        read_token = self.lexical.next_token()
         # print(readToken)
         action = self.table_action.get_action(state + 1, read_token)
         # print(action)
@@ -29,7 +29,7 @@ class SyntaticAnalyzer:
         cont=0
         # acc: accept
         while action != "acc":
-            self.lexical.Lexical_error(read_token)
+            self.lexical.lexical_error(read_token)
             if self.lexical.lexicalError == True:
                 break
             
@@ -37,7 +37,7 @@ class SyntaticAnalyzer:
             if action[0] == "s":
                 state = int(action[1:])
                 STACK.append(state)
-                read_token = self.lexical.next_Token()
+                read_token = self.lexical.next_token()
                 action = self.table_action.get_action(state + 1, read_token)
                 cont+=1
             
