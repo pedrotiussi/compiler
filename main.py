@@ -1,5 +1,5 @@
 from Lexical.analyzer import Lexical_Analysis
-from Syntatical.analyzer import Syntatical_Analysis
+from syntatic.analyzer import SyntaticAnalysis
 import sys
 
 def run_compiler(test_file: str):
@@ -14,7 +14,7 @@ def run_compiler(test_file: str):
         exit()
 
     lexical = Lexical_Analysis(file)
-    syntatical = Syntatical_Analysis(lexical)
+    syntatical = SyntaticAnalysis(lexical)
     syntatical.parse()
 
     file.close()
