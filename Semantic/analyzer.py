@@ -255,8 +255,6 @@ def Semantic_Analysis(lexical, rule):
         MT_ = StackSem.pop()
         E_ = StackSem.pop()
         MW_ = StackSem.pop()
-        print(E_)
-        print(E_._)
         t = E_._.type
         if not CheckTypes(t,bool_):
             Error(lexical, ERR_BOOL_TYPE_EXPECTED)
@@ -644,9 +642,7 @@ def Semantic_Analysis(lexical, rule):
 
     elif rule == MW_RULE:
         rLabel = newLabel()
-        print(MW_)
-        MW_ = StackSem.pop() ##
-        print(MW_._)
+        MW_ = StackSem.pop()
         MW_._.label = rLabel
         StackSem.append(MW_)
         generated_code.write(f"L{rLabel}\n")
