@@ -15,8 +15,8 @@ class SyntaticAnalyzer:
 
     def parse(self):
 
-        output_file_name = self.lexical.arq.name.split(".", maxsplit=1)[0] + ".txt"
-        output_path = os.path.join("output", output_file_name)
+        # output_file_name = self.lexical.arq.name.split(".", maxsplit=1)[0] + ".txt"
+        output_path = os.path.join("output", self.lexical.file_name)
         generated_code = open(output_path, "w")
         generated_code.close()
 

@@ -1,5 +1,6 @@
 from analyzers.lexical.key_words import *
 import string
+import os
 
 # Key Words
 key_words = ["array", "boolean", "break", "char", "continue",
@@ -11,9 +12,11 @@ class LexicalAnalyzer:
     next_char = " "
     arq = None
 
-    def __init__(self, file):
-        file.seek(0)
-        self.arq = file
+    def __init__(self, file_path):
+        self.file = open(file_path, 'r', encoding = 'utf-8')
+        self.file.seek(0)
+        self.arq = self.file
+        self.file_name = os.path.basename(file_path)
 
     def search_Key_Word(self, name): 
         left = 0

@@ -1,29 +1,25 @@
 from analyzers.lexical.analyzer import LexicalAnalyzer
 from analyzers.syntatic.analyzer import SyntaticAnalyzer
 import sys
+import os
 
-def run_compiler(test_file: str):
+def run_compiler(input_file_path: str):
 
-    file = open(test_file, 'r', encoding = 'utf-8')
-
-    lexical = LexicalAnalyzer(file)
+    lexical = LexicalAnalyzer(input_file_path)
     lexical.run()
 
     if lexical.lexicalError:
-        file.close()
         exit()
 
-    lexical = LexicalAnalyzer(file)
+    lexical = LexicalAnalyzer(input_file_path)
     syntatical = SyntaticAnalyzer(lexical)
     syntatical.parse()
-
-    file.close()
 
 
 if __name__ == '__main__':
     try:
         test_file = sys.argv[1]
     except:
-        test_file = 'test_code.txt'
+        test_file = os.path.join('input', 'test_code.txt')
 
     run_compiler(test_file)
