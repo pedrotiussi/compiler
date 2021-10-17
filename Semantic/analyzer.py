@@ -1,4 +1,4 @@
-from Syntatical.states import *
+from syntatic.states import *
 from Scope.analyzer import *
 from Scope.rules import *
 from Scope.classes import *
