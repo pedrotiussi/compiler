@@ -70,6 +70,6 @@ class Syntatical_Analysis:
                 
             else:
                 self.syntaticalError = True
-                print("Sintaxe Error in line " + str(self.lexical.line))
+                print(f"Sintaxe Error in line {self.lexical.line}")
                 break
 

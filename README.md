@@ -1,3 +1,11 @@
-# Compilador-Final
-Para realizar os testes, basta trocar o nome do arquivo na main.py
-O código gerado é escrito em codigo_Gerado.txt
+# Compiler
+
+This is a compiler for Simple Script Language.
+
+To use it, you will need python 3.6+.
+All you need to do is call 
+```
+python main.py 
+```
+on terminal at compiler folder.
+
