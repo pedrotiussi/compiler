@@ -3,6 +3,7 @@ from Semantic.analyzer import Semantic_Analysis
 from Syntatical.states import *
 from Lexical.key_words import *
 import csv
+import os
 
 TAB_ACTION_GOTO = list(csv.reader(open("action_table.csv","r"), delimiter = "\t"))
 TOKEN_TAB_ACTION=[INTEGER, CHAR, BOOLEAN, STRING, TYPE, EQUALS, ARRAY, LEFT_SQUARE,
@@ -25,7 +26,10 @@ class Syntatical_Analysis:
         self.lexical = lexical
 
     def parse(self):
-        generated_code = open("codigo_Gerado.txt", "w")
+
+        output_file_name = self.lexical.arq.name.split(".", maxsplit=1)[0] + ".txt"
+        output_path = os.path.join("output", output_file_name)
+        generated_code = open(output_path, "w")
         generated_code.close()
 
         STACK = []
@@ -62,7 +66,7 @@ class Syntatical_Analysis:
                 STACK.append(state)
                 action = TAB_ACTION_GOTO[state+1][tokenTAB(readToken)]
                 cont+=1
-                Semantic_Analysis(self.lexical, rule)
+                Semantic_Analysis(self.lexical, rule, output_path)
                 
             else:
                 self.syntaticalError = True

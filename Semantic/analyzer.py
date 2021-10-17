@@ -11,9 +11,9 @@ rLabel = ""
 hasErr = False
 StackSem = []
 
-def Semantic_Analysis(lexical, rule):
+def Semantic_Analysis(lexical, rule, output_path):
 
-    generated_code = open("codigo_Gerado.txt","a+")
+    generated_code = open(output_path, "a+")
     
     global name,n,rLabel
     global t,f
