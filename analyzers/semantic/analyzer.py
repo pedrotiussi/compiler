@@ -4,6 +4,7 @@ from analyzers.scope.rules import *
 from analyzers.type.type_classes import *
 from analyzers.type.constants import *
 from analyzers.semantic.global_variables import *
+from analyzers.type.analyzer import *
 
 
 class SemanticAnalyzer():
