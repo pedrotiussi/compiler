@@ -47,10 +47,12 @@ def EndBlock():
     nCurrentLevel-=1
     return nCurrentLevel
 
-def Define(aName):
+def define(a_name):
     global SymbolTable
     global SymbolTableLast
-    obj = object(aName,None)
+
+    obj = object(a_name,None)
+    
     try:
         a = SymbolTable[nCurrentLevel]
     except:
@@ -74,7 +76,7 @@ def Define(aName):
                 aux = aux.pNext
     return obj
 
-def Search(aName):
+def search(aName):
     global SymbolTable
     obj = SymbolTable[nCurrentLevel]
     while obj != None:
@@ -84,7 +86,7 @@ def Search(aName):
             obj = obj.pNext
     return obj
 
-def Find(aName):
+def find(aName):
     global SymbolTable
     obj = None
     for i in range(nCurrentLevel+1):
