@@ -24,7 +24,7 @@ class LexicalAnalyzer:
                                "of", "string", "struct", "true", "type", "var", "while"
                               ]
 
-    def search_key_word(self, word): 
+    def search_reserved_word(self, word): 
         left = 0
         right = len(self.reserved_words) - 1
         while left <= right:
@@ -76,10 +76,10 @@ class LexicalAnalyzer:
                 text_Aux.append(self.next_char)
                 self.next_char = self.arq.read(1)
                 self.ch+=1
-            text = sep.join(text_Aux)
-            token = self.search_key_word(text)
+            word = sep.join(text_Aux)
+            token = self.search_reserved_word(word)
             if token == ID:
-                self.secondary_Token = self.search_name(text)
+                self.secondary_Token = self.search_name(word)
         
         elif self.check_digit(self.next_char):
             num_Aux = []

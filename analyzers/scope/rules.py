@@ -1,4 +1,4 @@
-# Defining Rules
+# Kinds
 
 NO_KIND_DEF_ = -1
 VAR_ = 0
@@ -11,7 +11,7 @@ ALIAS_TYPE_ = 6
 SCALAR_TYPE_ = 7
 UNIVERSAL_ = 8
 
-# ERRORS
+# Errors
 ERR_REDCL = 9
 ERR_NO_DECL = 10
 ERR_TYPE_EXPECTED = 11
@@ -29,7 +29,7 @@ ERR_PARAM_TYPE = 22
 ERR_TOO_FEW_ARGS = 23
 ERR_RETURN_TYPE_MISMATCH = 24
 
-#Rules
+#Grammar Rules
 PLINE_P_RULE  =  0
 P_LDE_RULE  =  1
 LDE_LDE_RULE  =  2

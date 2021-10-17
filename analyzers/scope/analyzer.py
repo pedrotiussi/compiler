@@ -1,7 +1,7 @@
 from analyzers.lexical.analyzer import *
 from analyzers.scope.rules import *
-from analyzers.scope.classes import *
-from analyzers.scope.types import *
+from analyzers.type.type_classes import *
+from analyzers.type.constants import *
 
 def IS_TYPE_KIND(e_kind):
     return (e_kind == ARRAY_TYPE_ or e_kind == STRUCT_TYPE_ or e_kind == ALIAS_TYPE_ or e_kind == SCALAR_TYPE_)
