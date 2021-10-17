@@ -18,48 +18,49 @@ class SyntaticAnalyzer:
         generated_code = open(output_path, "w")
         generated_code.close()
 
-        STACK = []
+        stack = []
         state = 0
-        STACK.append(state)
+        stack.append(state)
         read_token = self.lexical.next_token()
-        action = self.table_action.get_action(state + 1, read_token)
-        
+        action = self.table_action.get_action(state + 1, read_token) 
         cont=0
-        # acc: accept
+
+        # acc: accept the input as simple stack language code
         while action != "acc":
             self.lexical.lexical_error(read_token)
             if self.lexical.lexicalError == True:
                 break
             
-            # s: state
+            # s*: some state
             if action[0] == "s":
                 state = int(action[1:])
-                STACK.append(state)
+                stack.append(state)
                 read_token = self.lexical.next_token()
                 action = self.table_action.get_action(state + 1, read_token)
                 cont+=1
             
-            # r: rule
+            # r*: some rule
             elif action[0] == "r":
                 rule = int(action[1:])
                 for x in range(RIGHT[rule-1]):
-                    STACK.pop()
+                    stack.pop()
 
                 try:
-                    state = int(self.table_action.get_action(STACK[-1]+1, LEFT[rule-1]))
+                    state = int(self.table_action.get_action(stack[-1]+1, LEFT[rule-1]))
 
                 except:
-                    print("In line {self.lexical.line}: sintax error")
+                    print(f"Line {self.lexical.line}: sintax error")
                     self.syntatic_error = True
                     break
 
-                STACK.append(state)
+                stack.append(state)
                 action = self.table_action.get_action(state + 1, read_token)
                 SemanticAnalyzer(self.lexical, rule, output_path).analyze()
                 cont+=1
                 
             else:
                 self.syntatic_error = True
-                print(f"In line {self.lexical.line}: sintax error")
+                print(f"Line {self.lexical.line}: sintax error")
                 break
-
+        
+        print("Well done! Syntatic OK!")

@@ -7,11 +7,8 @@ def run_compiler(input_file_path: str):
 
     lexical = LexicalAnalyzer(input_file_path)
     lexical.run()
-
     if lexical.lexicalError:
         exit()
-
-    lexical = LexicalAnalyzer(input_file_path)
     syntatical = SyntaticAnalyzer(lexical)
     syntatical.parse()
 
