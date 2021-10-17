@@ -255,14 +255,14 @@ class Lexical_Analysis:
     def Lexical_error(self, token):
         if token == UNKNOWN:
             self.lexicalError = True
-            print("Character "+str(self.ch+1)+" not expected in the line " + str(self.line))
+            print(f"Character {self.ch+1} not expected in the line {self.line}")
 
     def run(self):
         self.next_Char = self.arq.read(1)
         token_Aux = self.next_Token()
         while token_Aux != EOF:
             if token_Aux == UNKNOWN:
-                print("Character "+str(self.ch+1)+" not expected in the line " + str(self.line))
+                print(f"Character {self.ch+1} not expected in the line {self.line}")
                 self.lexicalError = True
             token_Aux = self.next_Token()
         if not self.lexicalError:

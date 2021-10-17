@@ -100,7 +100,7 @@ def Find(aName):
 
 def Error(lexical, code):
     has_Err = True
-    print("Line: " + str(lexical.line)+" - ")
+    print(f"Line: {lexical.line} - ")
     if code == ERR_NO_DECL:
         print("Variable not declared")
     elif code == ERR_REDCL:
