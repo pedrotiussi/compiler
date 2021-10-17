@@ -22,9 +22,7 @@ class SyntaticAnalyzer:
         state = 0
         STACK.append(state)
         read_token = self.lexical.next_token()
-        # print(readToken)
         action = self.table_action.get_action(state + 1, read_token)
-        # print(action)
         
         cont=0
         # acc: accept
@@ -57,7 +55,7 @@ class SyntaticAnalyzer:
 
                 STACK.append(state)
                 action = self.table_action.get_action(state + 1, read_token)
-                SemanticAnalyzer(self.lexical, rule, output_path)
+                SemanticAnalyzer(self.lexical, rule, output_path).analyze()
                 cont+=1
                 
             else:

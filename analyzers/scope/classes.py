@@ -1,5 +1,3 @@
-# Defining Classes
-
 class Var:
     def __init__(self, p_type = None, n_index = None, n_size = None):
         self.p_type = p_type
