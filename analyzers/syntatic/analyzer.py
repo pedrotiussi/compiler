@@ -1,8 +1,8 @@
-from Scope.analyzer import *
-from Semantic.analyzer import Semantic_Analysis
-from syntatic.states import *
+from analyzers.scope.analyzer import *
+from analyzers.semantic.analyzer import Semantic_Analysis
+from analyzers.syntatic.states import *
 import os
-from syntatic.table_action import TableAction
+from analyzers.syntatic.table_action import TableAction
 
 
 class SyntaticAnalysis:

@@ -1,8 +1,8 @@
-from syntatic.states import *
-from Scope.analyzer import *
-from Scope.rules import *
-from Scope.classes import *
-from Scope.types import *
+from analyzers.syntatic.states import *
+from analyzers.scope.analyzer import *
+from analyzers.scope.rules import *
+from analyzers.scope.classes import *
+from analyzers.scope.types import *
 
 name = ""
 n = ""

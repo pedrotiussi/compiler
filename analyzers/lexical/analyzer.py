@@ -1,4 +1,4 @@
-from Lexical.key_words import *
+from analyzers.lexical.key_words import *
 import string
 
 # Key Words

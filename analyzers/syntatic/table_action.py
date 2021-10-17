@@ -1,5 +1,5 @@
-from syntatic.states import *
-from Lexical.key_words import *
+from analyzers.syntatic.states import *
+from analyzers.lexical.key_words import *
 import csv
 
 

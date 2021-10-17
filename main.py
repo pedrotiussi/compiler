@@ -1,5 +1,5 @@
-from Lexical.analyzer import Lexical_Analysis
-from syntatic.analyzer import SyntaticAnalysis
+from analyzers.lexical.analyzer import Lexical_Analysis
+from analyzers.syntatic.analyzer import SyntaticAnalysis
 import sys
 
 def run_compiler(test_file: str):

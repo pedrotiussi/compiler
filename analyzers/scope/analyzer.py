@@ -1,7 +1,7 @@
-from Lexical.analyzer import *
-from Scope.rules import *
-from Scope.classes import *
-from Scope.types import *
+from analyzers.lexical.analyzer import *
+from analyzers.scope.rules import *
+from analyzers.scope.classes import *
+from analyzers.scope.types import *
 
 def IS_TYPE_KIND(eKind):
     return (eKind == ARRAY_TYPE_ or eKind == STRUCT_TYPE_ or eKind == ALIAS_TYPE_ or eKind == SCALAR_TYPE_)

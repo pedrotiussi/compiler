@@ -1,4 +1,4 @@
-from Scope.classes import *
+from analyzers.scope.classes import *
 
 #Types
 
