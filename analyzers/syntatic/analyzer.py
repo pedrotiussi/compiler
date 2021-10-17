@@ -23,21 +23,21 @@ class SyntaticAnalyzer:
         STACK = []
         state = 0
         STACK.append(state)
-        readToken = self.lexical.next_Token()
+        readToken = self.lexical.next_token()
         # print(readToken)
         action = self.table_action.get_action(state + 1, readToken)
         # print(action)
         
         cont=0
         while action != "acc":
-            self.lexical.Lexical_error(readToken)
+            self.lexical.lexical_error(readToken)
             if self.lexical.lexicalError == True:
                 break
 
             if action[0] == "s":
                 state = int(action[1:])
                 STACK.append(state)
-                readToken = self.lexical.next_Token()
+                readToken = self.lexical.next_token()
                 action = self.table_action.get_action(state + 1, readToken)
                 cont+=1
             

@@ -114,15 +114,15 @@ def SemanticAnalyzer(lexical, rule, output_path):
         StackSem.append(FALS_)
 
     elif rule == CHR_RULE:
-        CHR_ = t_attrib(CHR,None,CHR(char_, lexical.get_Cte(lexical.secondary_Token)))
+        CHR_ = t_attrib(CHR,None,CHR(char_, lexical.get_cte(lexical.secondary_Token)))
         StackSem.append(CHR_)
     
     elif rule == STR_RULE:
-        STR_ = t_attrib(STR,None,STR(string_, lexical.get_Cte(lexical.secondary_Token), lexical.secondary_Token))
+        STR_ = t_attrib(STR,None,STR(string_, lexical.get_cte(lexical.secondary_Token), lexical.secondary_Token))
         StackSem.append(STR_)
     
     elif rule == NUM_RULE:
-        NUM_ = t_attrib(NUM,None,NUM(int_, lexical.get_Cte(lexical.secondary_Token), lexical.secondary_Token))
+        NUM_ = t_attrib(NUM,None,NUM(int_, lexical.get_cte(lexical.secondary_Token), lexical.secondary_Token))
         StackSem.append(NUM_)
 
     elif rule == DT_ARRAY_RULE:
