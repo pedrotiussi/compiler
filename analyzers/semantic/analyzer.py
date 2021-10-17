@@ -34,7 +34,7 @@ def SemanticAnalyzer(lexical, rule, output_path):
             Error(lexical, ERR_REDCL)
         else:
             p = define(name)
-        p.eKind = NO_KIND_DEF_
+        p.e_kind = NO_KIND_DEF_
         IDD_.t_nont = IDD
         IDD_._ = ID(p,name)
         StackSem.append(IDD_)
@@ -58,8 +58,8 @@ def SemanticAnalyzer(lexical, rule, output_path):
     elif rule == T_IDU_RULE:
         IDU_ = StackSem.pop()
         p = IDU_._.object
-        if IS_TYPE_KIND(p.eKind) or p.eKind==UNIVERSAL_:
-            T_ = t_attrib(T,p._.nSize,T(p))
+        if IS_TYPE_KIND(p.e_kind) or p.e_kind==UNIVERSAL_:
+            T_ = t_attrib(T,p._.n_size,T(p))
         else:
             T_ = t_attrib(T,0,T(universal_))
             Error(lexical, ERR_TYPE_EXPECTED)
@@ -97,13 +97,13 @@ def SemanticAnalyzer(lexical, rule, output_path):
        t = T_._.type
        LI_ = StackSem.pop()
        p = LI_._.list
-       n = curFunction._.nVars
-       while p != None and p.eKind == NO_KIND_DEF_:
-           p.eKind = VAR_
-           p._ = Var(t,n,T_.nSize)
-           n+=T_.nSize
+       n = curFunction._.n_vars
+       while p != None and p.e_kind == NO_KIND_DEF_:
+           p.e_kind = VAR_
+           p._ = Var(t,n,T_.n_size)
+           n+=T_.n_size
            p = p.pNext
-       curFunction._.nVars=n
+       curFunction._.n_vars=n
 
     elif rule == TRUE_RULE:
         TRU_ = t_attrib(TRU, None, TRU(bool_,True))
@@ -132,16 +132,16 @@ def SemanticAnalyzer(lexical, rule, output_path):
         p = IDD_._.object
         n = NUM_._.val
         t = T_._.type
-        p.eKind = ARRAY_TYPE_
-        p._ = Array(t,n,n*T_.nSize)
+        p.e_kind = ARRAY_TYPE_
+        p._ = Array(t,n,n*T_.n_size)
 
     elif rule == DT_ALIAS_RULE:
         T_ = StackSem.pop()
         IDD_ = StackSem.pop()
         p = IDD_._.object
         t = T_._.type
-        p.eKind = ALIAS_TYPE_
-        p._ = Alias(t,T_.nSize)
+        p.e_kind = ALIAS_TYPE_
+        p._ = Alias(t,T_.n_size)
 
     elif rule == DC_LI_RULE:
         T_ = StackSem.pop()
@@ -149,10 +149,10 @@ def SemanticAnalyzer(lexical, rule, output_path):
         p = LI_._.list
         t = T_._.type
         n = 0
-        while p != None and p.eKind == NO_KIND_DEF_:
-            p.eKind = FIELD_
-            p._ = Field(t,n,T_.nSize)
-            n = n+T_.nSize
+        while p != None and p.e_kind == NO_KIND_DEF_:
+            p.e_kind = FIELD_
+            p._ = Field(t,n,T_.n_size)
+            n = n+T_.n_size
             p = p.pNext
         DC_ = t_attrib(DC,n,DC(LI_._.list))
         StackSem.append(DC_)
@@ -163,11 +163,11 @@ def SemanticAnalyzer(lexical, rule, output_path):
         DC1_ = StackSem.pop()
         p = LI_._.list
         t = T_._.type
-        n = DC1_.nSize
-        while p != None and p.eKind == NO_KIND_DEF_:
-            p.eKind = FIELD_
-            p._ = Field(t,n,T_.nSize)
-            n = n+T_.nSize
+        n = DC1_.n_size
+        while p != None and p.e_kind == NO_KIND_DEF_:
+            p.e_kind = FIELD_
+            p._ = Field(t,n,T_.n_size)
+            n = n+T_.n_size
             p = p.pNext
         DC0_ = t_attrib(DC,n,DC(DC1_._.list))
         StackSem.append(DC0_)
@@ -179,17 +179,17 @@ def SemanticAnalyzer(lexical, rule, output_path):
         DC_ = StackSem.pop()
         IDD_ = StackSem.pop()
         p = IDD_._.object
-        p.eKind = STRUCT_TYPE_
-        p._ = Struct(DC_._.list,DC_.nSize)
+        p.e_kind = STRUCT_TYPE_
+        p._ = Struct(DC_._.list,DC_.n_size)
         EndBlock()
 
     elif rule == LP_IDD_RULE:
         T_ = StackSem.pop()
         IDD_ = StackSem.pop()
         p = IDD_._.object
-        p.eKind = PARAM_
-        p._ = Param(t,0,T_.nSize)
-        LP_ = t_attrib(LP,T_.nSize,LP(p))
+        p.e_kind = PARAM_
+        p._ = Param(t,0,T_.n_size)
+        LP_ = t_attrib(LP,T_.n_size,LP(p))
         StackSem.append(LP_)
     
     elif rule == LP_LP_RULE:
@@ -198,15 +198,15 @@ def SemanticAnalyzer(lexical, rule, output_path):
         LP1_ = StackSem.pop()
         p = IDD_._.object
         t = T_._.type
-        n = LP1_.nSize
-        p.eKind = PARAM_
-        p._ = Param(t,n,T_.nSize)
-        LP0_ = t_attrib(LP,n+T_.nSize,LP(LP1_._.list))
+        n = LP1_.n_size
+        p.e_kind = PARAM_
+        p._ = Param(t,n,T_.n_size)
+        LP0_ = t_attrib(LP,n+T_.n_size,LP(LP1_._.list))
     
     elif rule == NF_RULE:
         IDD_ = StackSem[-1]
         f = IDD_._.object
-        f.eKind = FUNCTION_
+        f.e_kind = FUNCTION_
         f._ = Function(None,None,nFuncs,0,0)
         nFuncs+=1
         NewBlock()
@@ -216,10 +216,10 @@ def SemanticAnalyzer(lexical, rule, output_path):
         LP_ = StackSem.pop()
         IDD_ = StackSem.pop()
         f = IDD_._.object
-        f.eKind = FUNCTION_
-        f._ = Function(T_._.type,LP_._.list,f._.nIndex,LP_.nSize,LP_.nSize)
+        f.e_kind = FUNCTION_
+        f._ = Function(T_._.type,LP_._.list,f._.n_index,LP_.n_size,LP_.n_size)
         curFunction = f
-        generated_code.write(f"BEGIN_FUNC {f._.nIndex} {f._.nParams}\n")
+        generated_code.write(f"BEGIN_FUNC {f._.n_index} {f._.n_params}\n")
 
     elif rule == DF_RULE:
         EndBlock()
@@ -519,12 +519,12 @@ def SemanticAnalyzer(lexical, rule, output_path):
         ID_ = StackSem.pop()
         LV1_ = StackSem.pop()
         t = LV1_._.type
-        if t.eKind != STRUCT_TYPE_:
-            if t.eKind != UNIVERSAL_:
+        if t.e_kind != STRUCT_TYPE_:
+            if t.e_kind != UNIVERSAL_:
                 Error(lexical, ERR_KIND_NOT_STRUCT)
             LV0_ = t_attrib(LV,None,LV(universal_))
         else:
-            p = t._.pFields
+            p = t._.p_fields
             while p != None:
                 if p.aName == ID_._.name:
                     break
@@ -533,10 +533,10 @@ def SemanticAnalyzer(lexical, rule, output_path):
                 Error(lexical, ERR_FIELD_NOT_DECL)
                 LV0_ = t_attrib(LV,None,LV(universal_))
             else:
-                LV0_ = t_attrib(LV,None,LV(p._.pType))
-                LV0_._.type._ = Type(None,p._.nSize)
+                LV0_ = t_attrib(LV,None,LV(p._.p_type))
+                LV0_._.type._ = Type(None,p._.n_size)
         StackSem.append(LV0_)
-        generated_code.write(f"\tADD {p._.nIndex}\n")
+        generated_code.write(f"\tADD {p._.n_index}\n")
 
     elif rule == LV_SQUARE_RULE:
         E_ = StackSem.pop()
@@ -544,13 +544,13 @@ def SemanticAnalyzer(lexical, rule, output_path):
         t = LV1_._.type
         if CheckTypes(t,string_):
             LV0_ = t_attrib(LV,None,LV(char_))
-        elif t.eKind!=ARRAY_TYPE_:
-            if t.eKind != UNIVERSAL_:
+        elif t.e_kind!=ARRAY_TYPE_:
+            if t.e_kind != UNIVERSAL_:
                 Error(lexical, ERR_KIND_NOT_ARRAY)
             LV0_ = t_attrib(LV,None,LV(universal_))
         else:
-            LV0_ = t_attrib(LV,None,LV(t._.pElemType))
-            n = t._.pElemType._.nSize
+            LV0_ = t_attrib(LV,None,LV(t._.p_elem_type))
+            n = t._.p_elem_type._.n_size
             generated_code.write(f"\tMUL {n}\n")
             generated_code.write("\tADD\n")
         if not CheckTypes(E_._.type,int_):
@@ -560,23 +560,23 @@ def SemanticAnalyzer(lexical, rule, output_path):
     elif rule == LV_IDU_RULE:
         IDU_ = StackSem.pop()
         p = IDU_._.object
-        if p.eKind != VAR_ and p.eKind!=PARAM_:
-            if p.eKind != UNIVERSAL_:
+        if p.e_kind != VAR_ and p.e_kind!=PARAM_:
+            if p.e_kind != UNIVERSAL_:
                 Error(lexical, ERR_KIND_NOT_VAR)
             LV_ = t_attrib(LV,None,LV(universal_))
         else:
-            LV_ = t_attrib(LV,None,LV(p._.pType))
-            LV_._.type._ = Type(None,p._.nSize)
-            generated_code.write(f"\tLOAD_REF {p._.nIndex}\n")
+            LV_ = t_attrib(LV,None,LV(p._.p_type))
+            LV_._.type._ = Type(None,p._.n_size)
+            generated_code.write(f"\tLOAD_REF {p._.n_index}\n")
         StackSem.append(LV_)
         
     elif rule == MC_RULE:
         IDU_ = StackSem[-1]
         f = IDU_._.object
-        if f.eKind != FUNCTION_:
+        if f.e_kind != FUNCTION_:
             MC_ = t_attrib(MC,None,MC(universal_,None,True))
         else:
-            MC_ = t_attrib(MC,None,MC(f._.pRetType,f._.pParams,False))
+            MC_ = t_attrib(MC,None,MC(f._.p_ret_type,f._.p_params,False))
         StackSem.append(MC_)
     
     elif rule == LE_E_RULE:
@@ -618,12 +618,12 @@ def SemanticAnalyzer(lexical, rule, output_path):
         f = IDU_._.object
         F_ = t_attrib(F,None,F(MC_._.type))
         if not LE_._.err:
-            if LE_._.n-1 < f._nParams and LE_._.n != 0:
+            if LE_._.n-1 < f._n_params and LE_._.n != 0:
                 Error(lexical, ERR_TOO_FEW_ARGS)
-            elif LE_._.n-1 > f._.nParams:
+            elif LE_._.n-1 > f._.n_params:
                 Error(lexical, ERR_TOO_MANY_ARG)
         StackSem.append(F_)
-        generated_code.write(f"\tCALL {f._.nIndex}\n")
+        generated_code.write(f"\tCALL {f._.n_index}\n")
 
     elif rule == MT_RULE:
         rLabel = newLabel()
@@ -661,9 +661,9 @@ def SemanticAnalyzer(lexical, rule, output_path):
         t = LV_._.type
         E0_._ = F(E_._.type)
         StackSem.append(E0_)
-        if t._ == None or t._.nSize == None:
+        if t._ == None or t._.n_size == None:
             generated_code.write(f"\tSTORE_REF 1\n")
         else:
-            generated_code.write(f"\tSTORE_REF {t._.nSize}\n")
+            generated_code.write(f"\tSTORE_REF {t._.n_size}\n")
 
     generated_code.close()

@@ -1,57 +1,57 @@
 # Defining Classes
 
 class Var:
-    def __init__(self, pType = None, nIndex = None, nSize = None):
-        self.pType = pType
-        self.nIndex = nIndex
-        self.nSize = nSize
+    def __init__(self, p_type = None, n_index = None, n_size = None):
+        self.p_type = p_type
+        self.n_index = n_index
+        self.n_size = n_size
 
 class Param:
-    def __init__(self, pType = None, nIndex = None, nSize = None):
-        self.pType = pType
-        self.nIndex = nIndex
-        self.nSize = nSize
+    def __init__(self, p_type = None, n_index = None, n_size = None):
+        self.p_type = p_type
+        self.n_index = n_index
+        self.n_size = n_size
 
 class Field:
-    def __init__(self, pType = None, nIndex = None, nSize = None):
-        self.pType = pType
-        self.nIndex = nIndex
-        self.nSize = nSize
+    def __init__(self, p_type = None, n_index = None, n_size = None):
+        self.p_type = p_type
+        self.n_index = n_index
+        self.n_size = n_size
 
 class Function:
-    def __init__(self, pRetType = None, pParams = None, nIndex = None, nParams = None, nVars = None):
-        self.pRetType = pRetType
-        self.pParams = nParams
-        self.nIndex = nIndex
-        self.nParams = nParams
-        self.nVars = nVars       
+    def __init__(self, p_ret_type = None, p_params = None, n_index = None, n_params = None, n_vars = None):
+        self.p_ret_type = p_ret_type
+        self.p_params = p_params
+        self.n_index = n_index
+        self.n_params = n_params
+        self.n_vars = n_vars       
 
 class Array:
-    def __init__(self, pElemType = None, nNumElems = None, nSize = None):
-        self.pElemType = pElemType
-        self.nNumElems = nNumElems
-        self.nSize = nSize
+    def __init__(self, p_elem_type = None, n_num_elems = None, n_size = None):
+        self.p_elem_type = p_elem_type
+        self.n_num_elems = n_num_elems
+        self.n_size = n_size
 
 class Struct:
-    def __init__(self, pFields = None, nSize = None):
-        self.pFields = pFields
-        self.nSize = nSize
+    def __init__(self, p_fields = None, n_size = None):
+        self.p_fields = p_fields
+        self.n_size = n_size
 
 class Alias:
-    def __init__(self, pBaseType = None, nSize = None):
-        self.pBaseType = pBaseType
-        self.nSize = nSize
+    def __init__(self, p_base_type = None, n_size = None):
+        self.p_base_type = p_base_type
+        self.n_size = n_size
 
 class Type:
-    def __init__(self, pBaseType = None, nSize = None):
-        self.pBaseType = pBaseType
-        self.nSize = None
+    def __init__(self, p_base_type = None, n_size = None):
+        self.p_base_type = p_base_type
+        self.n_size = None
 
 class object:
-    def __init__(self, nName = None, pNext = None, eKind = None, _ = None):
-        self.nName = nName
+    def __init__(self, n_name = None, pNext = None, e_kind = None, _ = None):
+        self.n_name = n_name
         self.pNext = pNext
-        self.eKind = eKind
+        self.e_kind = e_kind
         self._ = None
 
 class ID:
@@ -157,7 +157,7 @@ class NUM:
         self.pos = pos
 
 class t_attrib:
-    def __init__(self, t_nont = None, nSize = None, _ = None):
+    def __init__(self, t_nont = None, n_size = None, _ = None):
         self.t_nont = t_nont
-        self.nSize = nSize
+        self.n_size = n_size
         self._ = _

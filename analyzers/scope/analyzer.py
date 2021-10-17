@@ -3,8 +3,8 @@ from analyzers.scope.rules import *
 from analyzers.scope.classes import *
 from analyzers.scope.types import *
 
-def IS_TYPE_KIND(eKind):
-    return (eKind == ARRAY_TYPE_ or eKind == STRUCT_TYPE_ or eKind == ALIAS_TYPE_ or eKind == SCALAR_TYPE_)
+def IS_TYPE_KIND(e_kind):
+    return (e_kind == ARRAY_TYPE_ or e_kind == STRUCT_TYPE_ or e_kind == ALIAS_TYPE_ or e_kind == SCALAR_TYPE_)
 
 global SymbolTable
 SymbolTable = []
@@ -52,7 +52,7 @@ def define(a_name):
     global SymbolTableLast
 
     obj = object(a_name,None)
-    
+
     try:
         a = SymbolTable[nCurrentLevel]
     except:
@@ -80,7 +80,7 @@ def search(aName):
     global SymbolTable
     obj = SymbolTable[nCurrentLevel]
     while obj != None:
-        if obj.nName == aName:
+        if obj.n_name == aName:
             break
         else:
             obj = obj.pNext
@@ -92,7 +92,7 @@ def find(aName):
     for i in range(nCurrentLevel+1):
         obj = SymbolTable[i]
         while obj != None:
-            if obj.nName == aName:
+            if obj.n_name == aName:
                 break
             else:
                 obj = obj.pNext
@@ -141,23 +141,23 @@ def CheckTypes(t1,t2):
         return True
     elif t1 == universal_ or t2 == universal_:
         return True
-    elif t1.eKind == UNIVERSAL_ or t2.eKind == UNIVERSAL_:
+    elif t1.e_kind == UNIVERSAL_ or t2.e_kind == UNIVERSAL_:
         return True
-    elif t1.eKind == ALIAS_TYPE_ and t2.eKind != ALIAS_TYPE_:
-        return CheckTypes(t1._.pBaseType,t2)
-    elif t1.eKind != ALIAS_TYPE_ and t2.eKind == ALIAS_TYPE_:
-        return CheckTypes(t1,t2._.pBaseType)
-    elif t1.eKind == t2.eKind:
-        if t1.eKind == ALIAS_TYPE_:
-            return CheckTypes(t1._.pBaseType,t2._.pBaseType)
-        elif t1.eKind == ARRAY_TYPE_:
-            if t1._.nNumElems == t2._.nNumElems:
-                return CheckTypes(t1._.pElemType,t2._.pElemType)
-        elif t1.eKind == STRUCT_TYPE_:
-            f1 = t1._.pFields
-            f2 = t2._.pFields
+    elif t1.e_kind == ALIAS_TYPE_ and t2.e_kind != ALIAS_TYPE_:
+        return CheckTypes(t1._.p_base_type,t2)
+    elif t1.e_kind != ALIAS_TYPE_ and t2.e_kind == ALIAS_TYPE_:
+        return CheckTypes(t1,t2._.p_base_type)
+    elif t1.e_kind == t2.e_kind:
+        if t1.e_kind == ALIAS_TYPE_:
+            return CheckTypes(t1._.p_base_type,t2._.p_base_type)
+        elif t1.e_kind == ARRAY_TYPE_:
+            if t1._.n_num_elems == t2._.n_num_elems:
+                return CheckTypes(t1._.p_elem_type,t2._.p_elem_type)
+        elif t1.e_kind == STRUCT_TYPE_:
+            f1 = t1._.p_fields
+            f2 = t2._.p_fields
             while f1 != None and f2 != None:
-                if not CheckTypes(f1._.pType,f2._.pType):
+                if not CheckTypes(f1._.p_type,f2._.p_type):
                     return False
             return (f1 == None and f2 == None)
     else:
@@ -169,6 +169,6 @@ def print_SymbolTable():
         obj = SymbolTable[nCurrentLevel]
         print("SymbolTable:")
         while obj != None:
-            print(obj.nName)
+            print(obj.n_name)
             obj = obj.pNext
 

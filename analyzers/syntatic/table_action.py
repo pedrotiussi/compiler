@@ -17,11 +17,11 @@ class TableAction:
             ID, TRUE, FALSE, CHR, STR, NUM, NB, MF, MC, NF, MT, ME, MW
         ]
 
-        self.TAB_ACTION_GOTO = list(csv.reader(open("action_table.csv","r"), delimiter = "\t"))
+        self.TAB_ACTION_GOTO = list(csv.reader(open("table_action.csv","r"), delimiter = "\t"))
 
-    def tokenTAB(self, a):
+    def token_table(self, a):
         return self.TOKEN_TAB_ACTION.index(a) + 1
 
     def get_action(self, state, token):
-        action = self.TAB_ACTION_GOTO[state][self.tokenTAB(token)]
+        action = self.TAB_ACTION_GOTO[state][self.token_table(token)]
         return action
