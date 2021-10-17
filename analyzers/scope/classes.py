@@ -10,19 +10,19 @@ class Param:
         self.n_index = n_index
         self.n_size = n_size
 
-class Field:
-    def __init__(self, p_type = None, n_index = None, n_size = None):
-        self.p_type = p_type
-        self.n_index = n_index
-        self.n_size = n_size
-
 class Function:
     def __init__(self, p_ret_type = None, p_params = None, n_index = None, n_params = None, n_vars = None):
         self.p_ret_type = p_ret_type
         self.p_params = p_params
         self.n_index = n_index
         self.n_params = n_params
-        self.n_vars = n_vars       
+        self.n_vars = n_vars    
+
+class Field:
+    def __init__(self, p_type = None, n_index = None, n_size = None):
+        self.p_type = p_type
+        self.n_index = n_index
+        self.n_size = n_size   
 
 class Array:
     def __init__(self, p_elem_type = None, n_num_elems = None, n_size = None):

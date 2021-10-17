@@ -36,7 +36,7 @@ class SemanticAnalyzer():
             except:
                 pass
             if self.p!= None:
-                Error(self.lexical, ERR_REDCL)
+                error(self.lexical, ERR_REDCL)
             else:
                 self.p= define(name)
             self.p.e_kind = NO_KIND_DEF_
@@ -48,7 +48,7 @@ class SemanticAnalyzer():
             name = self.lexical.secondary_Token
             self.p= find(name)
             if self.p== None:
-                Error(self.lexical, ERR_NO_DECL)
+                error(self.lexical, ERR_NO_DECL)
                 self.p= define(name)
             IDU_.t_nont = IDU
             IDU_._ = ID(self.p,name)
@@ -67,7 +67,7 @@ class SemanticAnalyzer():
                 T_ = t_attrib(T,self.p._.n_size,T(self.p))
             else:
                 T_ = t_attrib(T,0,T(universal_))
-                Error(self.lexical, ERR_TYPE_EXPECTED)
+                error(self.lexical, ERR_TYPE_EXPECTED)
             semantic_stack.append(T_)
 
         elif self.rule == T_INTEGER_RULE:
@@ -178,7 +178,7 @@ class SemanticAnalyzer():
             semantic_stack.append(DC0_)
         
         elif self.rule == NB_RULE:
-            NewBlock()
+            new_block()
 
         elif self.rule == DT_STRUCT_RULE:
             DC_ = semantic_stack.pop()
@@ -186,7 +186,7 @@ class SemanticAnalyzer():
             self.p= IDD_._.object
             self.p.e_kind = STRUCT_TYPE_
             self.p._ = Struct(DC_._.list,DC_.n_size)
-            EndBlock()
+            end_block()
 
         elif self.rule == LP_IDD_RULE:
             T_ = semantic_stack.pop()
@@ -214,7 +214,7 @@ class SemanticAnalyzer():
             f.e_kind = FUNCTION_
             f._ = Function(None,None,nFuncs,0,0)
             nFuncs+=1
-            NewBlock()
+            new_block()
 
         elif self.rule == MF_RULE:
             T_ = semantic_stack.pop()
@@ -227,15 +227,15 @@ class SemanticAnalyzer():
             self.generated_code.write(f"BEGIN_FUNC {f._.n_index} {f._.n_params}\n")
 
         elif self.rule == DF_RULE:
-            EndBlock()
+            end_block()
             self.generated_code.write("END_FUNC\n")
 
         elif self.rule == U_IF_RULE:
             MT_ = semantic_stack.pop()
             E_ = semantic_stack.pop()
             t = E_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
                 self.generated_code.write(f"L{MT_._.label}\n")
             
         elif self.rule == U_IF_ELSE_U_RULE:
@@ -243,8 +243,8 @@ class SemanticAnalyzer():
             MT_ = semantic_stack.pop()
             E_ = semantic_stack.pop()
             t = E_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             self.generated_code.write(f"L{ME_._.label}\n")
 
         elif self.rule == M_IF_ELSE_M_RULE:
@@ -252,8 +252,8 @@ class SemanticAnalyzer():
             MT_ = semantic_stack.pop()
             E_ = semantic_stack.pop()
             t = E_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             self.generated_code.write(f"L{ME_._.label}\n")
 
         elif self.rule == M_WHILE_RULE:
@@ -261,25 +261,25 @@ class SemanticAnalyzer():
             E_ = semantic_stack.pop()
             MW_ = semantic_stack.pop()
             t = E_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             self.generated_code.write(f"\tJMP_BW L'0'\nL{MT_._.label}n")        
 
         elif self.rule == M_DO_WHILE_RULE:
             E_ = semantic_stack.pop()
             MW_ = semantic_stack.pop()
             t = E_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             self.generated_code.write(f"\tNOT\n\tTJMP_BW L{MW_._.label}\n")  
 
         elif self.rule == E_AND_RULE:
             L_ = semantic_stack.pop()
             E1_ = semantic_stack.pop()
-            if not CheckTypes(E1_._.type,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
-            if not CheckTypes(L_._.type,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(E1_._.type,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(L_._.type,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             E0_ = t_attrib(E,None,E(bool_))
             semantic_stack.append(E0_)
             self.generated_code.write(f"\tAND\n")
@@ -287,10 +287,10 @@ class SemanticAnalyzer():
         elif self.rule == E_OR_RULE:
             L_ = semantic_stack.pop()
             E1_ = semantic_stack.pop()
-            if not CheckTypes(E1_._.type,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
-            if not CheckTypes(L_._.type,bool_):
-                Error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(E1_._.type,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
+            if not check_types(L_._.type,bool_):
+                error(self.lexical, ERR_BOOL_TYPE_EXPECTED)
             E0_ = t_attrib(E,None,E(bool_))
             semantic_stack.append(E0_)
             self.generated_code.write(f"\tOR\n")
@@ -303,8 +303,8 @@ class SemanticAnalyzer():
         elif self.rule == L_LESS_THAN_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,L(bool_))
             semantic_stack.append(L0_)
             self.generated_code.write(f"\tLT\n")
@@ -312,8 +312,8 @@ class SemanticAnalyzer():
         elif self.rule == L_GREATER_THAN_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,bool_)
             semantic_stack.append(L0_)
             self.generated_code.write(f"\tGT\n")
@@ -321,8 +321,8 @@ class SemanticAnalyzer():
         elif self.rule == L_LESS_EQUAL_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,bool_)
             semantic_stack.append(L0_)
             self.generated_code.write(f"\tLE\n")
@@ -330,8 +330,8 @@ class SemanticAnalyzer():
         elif self.rule == L_GREATER_EQUAL_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,bool_)
             semantic_stack.append(L0_)
             self.generated_code.write(f"\tGE\n")
@@ -339,8 +339,8 @@ class SemanticAnalyzer():
         elif self.rule == L_EQUAL_EQUAL_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,bool_)
             semantic_stack.append(L0_)
             self.generated_code.write("\tEQ\n")
@@ -348,8 +348,8 @@ class SemanticAnalyzer():
         elif self.rule == L_NOT_EQUAL_RULE:
             R_ = semantic_stack.pop()
             L1_ = semantic_stack.pop()
-            if not CheckTypes(L1_._.type,R_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(L1_._.type,R_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             L0_ = t_attrib(L,None,bool_)
             semantic_stack.append(L0_)
             self.generated_code.write("\tNE\n")
@@ -362,10 +362,10 @@ class SemanticAnalyzer():
         elif self.rule == R_PLUS_RULE:
             Y_ = semantic_stack.pop()
             R1_ = semantic_stack.pop()
-            if not CheckTypes(R1_._.type,Y_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
-            if not CheckTypes(R1_._.type,int_) and not CheckTypes(R1_._.type,string_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(R1_._.type,Y_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(R1_._.type,int_) and not check_types(R1_._.type,string_):
+                error(self.lexical, ERR_INVALID_TYPE)
             R0_ = t_attrib(R,None,R(R1_._.type))
             semantic_stack.append(R0_)
             self.generated_code.write("\tADD\n")
@@ -373,10 +373,10 @@ class SemanticAnalyzer():
         elif self.rule == R_MINUS_RULE:
             Y_ = semantic_stack.pop()
             R1_ = semantic_stack.pop()
-            if not CheckTypes(R1_._.type,Y_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
-            if not CheckTypes(R1_._.type,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(R1_._.type,Y_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(R1_._.type,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             R0_ = t_attrib(R,None,R(R1_._.type))
             semantic_stack.append(R0_)
             self.generated_code.write("\tSUB\n")
@@ -389,10 +389,10 @@ class SemanticAnalyzer():
         elif self.rule == Y_TIMES_RULE:
             F_ = semantic_stack.pop()
             Y1_ = semantic_stack.pop()
-            if not CheckTypes(Y1_._.type,F_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
-            if not CheckTypes(Y1_._.type,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(Y1_._.type,F_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(Y1_._.type,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             Y0_ = t_attrib(Y,None,Y(Y1_._.type))
             semantic_stack.append(Y0_)
             self.generated_code.write("\tMUL\n")
@@ -400,10 +400,10 @@ class SemanticAnalyzer():
         elif self.rule == Y_DIVIDE_RULE:
             F_ = semantic_stack.pop()
             Y1_ = semantic_stack.pop()
-            if not CheckTypes(Y1_._.type,F_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
-            if not CheckTypes(Y1_._.type,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(Y1_._.type,F_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(Y1_._.type,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             Y0_ = t_attrib(Y,None,Y(Y1_._.type))
             semantic_stack.append(Y0_)
             self.generated_code.write("\tDIV\n")
@@ -423,8 +423,8 @@ class SemanticAnalyzer():
         elif self.rule == F_LEFT_PLUS_PLUS_RULE:
             LV_ = semantic_stack.pop()
             t = LV_._.type
-            if not CheckTypes(t,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F_ = t_attrib(F,None,F(int_))
             self.generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
             self.generated_code.write(f"\tINC\n\tSTORE REF 1\n\tDE_REF 1\n")
@@ -432,8 +432,8 @@ class SemanticAnalyzer():
         elif self.rule == F_LEFT_MINUS_MINUS_RULE:
             LV_ = semantic_stack.pop()
             t = LV_._.type
-            if not CheckTypes(t,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F_ = t_attrib(F,None,F(LV_._.type))
             semantic_stack.append(F_)
             self.generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
@@ -442,8 +442,8 @@ class SemanticAnalyzer():
         elif self.rule ==F_RIGHT_PLUS_PLUS_RULE:
             LV_ = semantic_stack.pop()
             t = LV_._.type
-            if not CheckTypes(t,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F_ = t_attrib(F,None,F(LV_._.type))
             semantic_stack.append(F_)
             self.generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
@@ -453,8 +453,8 @@ class SemanticAnalyzer():
         elif self.rule == F_RIGHT_MINUS_MINUS_RULE:
             LV_ = semantic_stack.pop()
             t = LV_._.type
-            if not CheckTypes(t,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F_ = t_attrib(F,None,F(t))
             semantic_stack.append(F_)
             self.generated_code.write(f"\tDUP\n\tDUP\n\tDE_REF 1\n")
@@ -469,8 +469,8 @@ class SemanticAnalyzer():
         elif self.rule == F_MINUS_F_RULE:
             F1_ = semantic_stack.pop()
             t = F1_._.type
-            if not CheckTypes(t,int_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,int_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F0_ = t_attrib(F,None,F(t))
             semantic_stack.append(F0_)
             self.generated_code.write(f"\tNEG\n")
@@ -478,8 +478,8 @@ class SemanticAnalyzer():
         elif self.rule == F_NOT_F_RULE:
             F1_ = semantic_stack.pop()
             t = F1_._.type
-            if not CheckTypes(t,bool_):
-                Error(self.lexical, ERR_INVALID_TYPE)
+            if not check_types(t,bool_):
+                error(self.lexical, ERR_INVALID_TYPE)
             F0_ = t_attrib(F,None,F(t))
             semantic_stack.append(F0_)
             self.generated_code.write(f"\tNOT\n")
@@ -526,7 +526,7 @@ class SemanticAnalyzer():
             t = LV1_._.type
             if t.e_kind != STRUCT_TYPE_:
                 if t.e_kind != UNIVERSAL_:
-                    Error(self.lexical, ERR_KIND_NOT_STRUCT)
+                    error(self.lexical, ERR_KIND_NOT_STRUCT)
                 LV0_ = t_attrib(LV,None,LV(universal_))
             else:
                 self.p = t._.p_fields
@@ -535,7 +535,7 @@ class SemanticAnalyzer():
                         break
                     self.p = self.p.pNext
                 if self.p == None:
-                    Error(self.lexical, ERR_FIELD_NOT_DECL)
+                    error(self.lexical, ERR_FIELD_NOT_DECL)
                     LV0_ = t_attrib(LV,None,LV(universal_))
                 else:
                     LV0_ = t_attrib(LV,None,LV(self.p._.p_type))
@@ -547,19 +547,19 @@ class SemanticAnalyzer():
             E_ = semantic_stack.pop()
             LV1_ = semantic_stack.pop()
             t = LV1_._.type
-            if CheckTypes(t,string_):
+            if check_types(t,string_):
                 LV0_ = t_attrib(LV,None,LV(char_))
             elif t.e_kind!=ARRAY_TYPE_:
                 if t.e_kind != UNIVERSAL_:
-                    Error(self.lexical, ERR_KIND_NOT_ARRAY)
+                    error(self.lexical, ERR_KIND_NOT_ARRAY)
                 LV0_ = t_attrib(LV,None,LV(universal_))
             else:
                 LV0_ = t_attrib(LV,None,LV(t._.p_elem_type))
                 n = t._.p_elem_type._.n_size
                 self.generated_code.write(f"\tMUL {n}\n")
                 self.generated_code.write("\tADD\n")
-            if not CheckTypes(E_._.type,int_):
-                Error(self.lexical, ERR_INVALID_INDEX_TYPE)
+            if not check_types(E_._.type,int_):
+                error(self.lexical, ERR_INVALID_INDEX_TYPE)
             semantic_stack.append(LV0_)
 
         elif self.rule == LV_IDU_RULE:
@@ -567,7 +567,7 @@ class SemanticAnalyzer():
             self.p = IDU_._.object
             if self.p.e_kind != VAR_ and self.p.e_kind!=PARAM_:
                 if self.p.e_kind != UNIVERSAL_:
-                    Error(self.lexical, ERR_KIND_NOT_VAR)
+                    error(self.lexical, ERR_KIND_NOT_VAR)
                 LV_ = t_attrib(LV,None,LV(universal_))
             else:
                 LV_ = t_attrib(LV,None,LV(self.p._.p_type))
@@ -591,11 +591,11 @@ class SemanticAnalyzer():
             if not MC_._.err:
                 p=MC_._.param 
                 if p == None:
-                    Error(self.lexical, ERR_TOO_MANY_ARG)
+                    error(self.lexical, ERR_TOO_MANY_ARG)
                     LE_._.err = True
                 else:
-                    if not CheckTypes(self.p._.tipo,E_._.type):
-                        Error(self.lexical, ERR_PARAM_TYPE)
+                    if not check_types(self.p._.tipo,E_._.type):
+                        error(self.lexical, ERR_PARAM_TYPE)
                     LE_._.param = self.p.pNext   
                     LE_._.n = n + 1
             semantic_stack.append(LE_)
@@ -607,11 +607,11 @@ class SemanticAnalyzer():
             if not LE1_._.err:
                 p = LE1_._.param
                 if p == None:
-                    Error(self.lexical, ERR_TOO_MANY_ARG)
+                    error(self.lexical, ERR_TOO_MANY_ARG)
                     LE0_._.err = True
                 else:
-                    if not CheckTypes(self.p._.tipo,E_._.type):
-                        Error(self.lexical, ERR_PARAM_TYPE)
+                    if not check_types(self.p._.tipo,E_._.type):
+                        error(self.lexical, ERR_PARAM_TYPE)
                     LE0_._.param = self.p.pNext
                     LE0_._.n = n+1
             semantic_stack.append(LE0_)
@@ -624,21 +624,21 @@ class SemanticAnalyzer():
             F_ = t_attrib(F,None,F(MC_._.type))
             if not LE_._.err:
                 if LE_._.n-1 < f._n_params and LE_._.n != 0:
-                    Error(self.lexical, ERR_TOO_FEW_ARGS)
+                    error(self.lexical, ERR_TOO_FEW_ARGS)
                 elif LE_._.n-1 > f._.n_params:
-                    Error(self.lexical, ERR_TOO_MANY_ARG)
+                    error(self.lexical, ERR_TOO_MANY_ARG)
             semantic_stack.append(F_)
             self.generated_code.write(f"\tCALL {f._.n_index}\n")
 
         elif self.rule == MT_RULE:
-            rLabel = newLabel()
+            rLabel = new_label()
             MT_ = t_attrib(MT,None,MT(rLabel))
             semantic_stack.append(MT_)
             self.generated_code.write(f"\tTJMP_FW L{rLabel}\n")
 
         elif self.rule == ME_RULE:
             MT_ = semantic_stack[-1]
-            rLabel = newLabel()
+            rLabel = new_label()
             ME_._.label = rLabel
             ME_.t_nont = ME
             semantic_stack.append(ME_)
@@ -646,7 +646,7 @@ class SemanticAnalyzer():
             self.generated_code.write(f"L{MT_._.label}\n")
 
         elif self.rule == MW_RULE:
-            rLabel = newLabel()
+            rLabel = new_label()
             MW_ = semantic_stack.pop()
             MW_._.label = rLabel
             semantic_stack.append(MW_)
@@ -661,8 +661,8 @@ class SemanticAnalyzer():
         elif self.rule == M_E_SEMICOLON:
             E_ = semantic_stack.pop()
             LV_ = semantic_stack.pop()
-            if not CheckTypes(LV_._.type,E_._.type):
-                Error(self.lexical, ERR_TYPE_MISMATCH)
+            if not check_types(LV_._.type,E_._.type):
+                error(self.lexical, ERR_TYPE_MISMATCH)
             t = LV_._.type
             E0_._ = F(E_._.type)
             semantic_stack.append(E0_)

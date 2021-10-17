@@ -3,8 +3,11 @@ from analyzers.scope.rules import *
 from analyzers.scope.classes import *
 from analyzers.scope.types import *
 
-def IS_TYPE_KIND(e_kind):
-    return (e_kind == ARRAY_TYPE_ or e_kind == STRUCT_TYPE_ or e_kind == ALIAS_TYPE_ or e_kind == SCALAR_TYPE_)
+int_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
+char_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
+bool_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
+string_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
+universal_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
 
 global SymbolTable
 SymbolTable = []
@@ -12,9 +15,8 @@ global SymbolTableLast
 SymbolTableLast = []
 global nCurrentLevel
 nCurrentLevel = 0
-
-global labelNo
-labelNo = 0
+global label_no
+label_no = 0
 global nFuncs
 nFuncs = 0
 global constPool
@@ -22,30 +24,33 @@ constPool = 0
 global curFunction
 curFunction = object()
 
-int_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
-char_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
-bool_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
-string_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
-universal_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
 
-def newLabel():
-    global labelNo
-    labelNo+=1
-    return labelNo - 1
+def IS_TYPE_KIND(e_kind):
+    return (e_kind == ARRAY_TYPE_ or e_kind == STRUCT_TYPE_ or e_kind == ALIAS_TYPE_ or e_kind == SCALAR_TYPE_)
 
-def NewBlock():
-    global nCurrentLevel
+def search(a_name):
     global SymbolTable
-    global SymbolTableLast
-    nCurrentLevel+=1
-    SymbolTable.append(None)
-    SymbolTableLast.append(None)
-    return nCurrentLevel
+    obj = SymbolTable[nCurrentLevel]
+    while obj != None:
+        if obj.n_name == a_name:
+            break
+        else:
+            obj = obj.pNext
+    return obj
 
-def EndBlock():
-    global nCurrentLevel
-    nCurrentLevel-=1
-    return nCurrentLevel
+def find(a_name):
+    global SymbolTable
+    obj = None
+    for i in range(nCurrentLevel+1):
+        obj = SymbolTable[i]
+        while obj != None:
+            if obj.n_name == a_name:
+                break
+            else:
+                obj = obj.pNext
+        if obj != None:
+            break
+    return obj
 
 def define(a_name):
     global SymbolTable
@@ -54,17 +59,18 @@ def define(a_name):
     obj = object(a_name,None)
 
     try:
-        a = SymbolTable[nCurrentLevel]
+        SymbolTable[nCurrentLevel]
     except:
         SymbolTable.append(None)
     try:
-        a = SymbolTableLast[nCurrentLevel]
+        SymbolTableLast[nCurrentLevel]
     except:
         SymbolTableLast.append(None)
 
     if SymbolTable[nCurrentLevel] == None:
         SymbolTable[nCurrentLevel] = obj
         SymbolTableLast[nCurrentLevel] = obj
+
     else:
         aux = SymbolTable[nCurrentLevel]
         while True:
@@ -76,31 +82,28 @@ def define(a_name):
                 aux = aux.pNext
     return obj
 
-def search(aName):
-    global SymbolTable
-    obj = SymbolTable[nCurrentLevel]
-    while obj != None:
-        if obj.n_name == aName:
-            break
-        else:
-            obj = obj.pNext
-    return obj
+def new_label():
+    global label_no
 
-def find(aName):
-    global SymbolTable
-    obj = None
-    for i in range(nCurrentLevel+1):
-        obj = SymbolTable[i]
-        while obj != None:
-            if obj.n_name == aName:
-                break
-            else:
-                obj = obj.pNext
-        if obj != None:
-            break
-    return obj
+    label_no += 1
+    return label_no - 1
 
-def Error(lexical, code):
+def new_block():
+    global nCurrentLevel
+    global SymbolTable
+    global SymbolTableLast
+
+    nCurrentLevel += 1
+    SymbolTable.append(None)
+    SymbolTableLast.append(None)
+    return nCurrentLevel
+
+def end_block():
+    global nCurrentLevel
+    nCurrentLevel -= 1
+    return nCurrentLevel
+
+def error(lexical, code):
     has_Err = True
     print(f"Line: {lexical.line} - ")
     if code == ERR_NO_DECL:
@@ -136,7 +139,7 @@ def Error(lexical, code):
     elif code == ERR_RETURN_TYPE_MISMATCH:
         print("Return Type not compatible with the specified function return Type")
 
-def CheckTypes(t1,t2):
+def check_types(t1,t2):
     if t1 == t2:
         return True
     elif t1 == universal_ or t2 == universal_:
@@ -144,31 +147,22 @@ def CheckTypes(t1,t2):
     elif t1.e_kind == UNIVERSAL_ or t2.e_kind == UNIVERSAL_:
         return True
     elif t1.e_kind == ALIAS_TYPE_ and t2.e_kind != ALIAS_TYPE_:
-        return CheckTypes(t1._.p_base_type,t2)
+        return check_types(t1._.p_base_type,t2)
     elif t1.e_kind != ALIAS_TYPE_ and t2.e_kind == ALIAS_TYPE_:
-        return CheckTypes(t1,t2._.p_base_type)
+        return check_types(t1,t2._.p_base_type)
     elif t1.e_kind == t2.e_kind:
         if t1.e_kind == ALIAS_TYPE_:
-            return CheckTypes(t1._.p_base_type,t2._.p_base_type)
+            return check_types(t1._.p_base_type,t2._.p_base_type)
         elif t1.e_kind == ARRAY_TYPE_:
             if t1._.n_num_elems == t2._.n_num_elems:
-                return CheckTypes(t1._.p_elem_type,t2._.p_elem_type)
+                return check_types(t1._.p_elem_type,t2._.p_elem_type)
         elif t1.e_kind == STRUCT_TYPE_:
             f1 = t1._.p_fields
             f2 = t2._.p_fields
             while f1 != None and f2 != None:
-                if not CheckTypes(f1._.p_type,f2._.p_type):
+                if not check_types(f1._.p_type,f2._.p_type):
                     return False
             return (f1 == None and f2 == None)
     else:
         return False
-
-def print_SymbolTable():
-    global SymbolTable
-    if len>0:
-        obj = SymbolTable[nCurrentLevel]
-        print("SymbolTable:")
-        while obj != None:
-            print(obj.n_name)
-            obj = obj.pNext
 
