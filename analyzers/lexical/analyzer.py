@@ -6,7 +6,7 @@ key_words = ["array", "boolean", "break", "char", "continue",
              "do", "else", "false", "function", "if", "integer", 
              "of", "string", "struct", "true", "type", "var", "while"]
 
-class Lexical_Analysis:
+class LexicalAnalyzer:
     lexicalError = False
     next_char = " "
     arq = None

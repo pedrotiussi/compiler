@@ -1,20 +1,20 @@
-from analyzers.lexical.analyzer import Lexical_Analysis
-from analyzers.syntatic.analyzer import SyntaticAnalysis
+from analyzers.lexical.analyzer import LexicalAnalyzer
+from analyzers.syntatic.analyzer import SyntaticAnalyzer
 import sys
 
 def run_compiler(test_file: str):
 
     file = open(test_file, 'r', encoding = 'utf-8')
 
-    lexical = Lexical_Analysis(file)
+    lexical = LexicalAnalyzer(file)
     lexical.run()
 
     if lexical.lexicalError:
         file.close()
         exit()
 
-    lexical = Lexical_Analysis(file)
-    syntatical = SyntaticAnalysis(lexical)
+    lexical = LexicalAnalyzer(file)
+    syntatical = SyntaticAnalyzer(lexical)
     syntatical.parse()
 
     file.close()

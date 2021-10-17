@@ -1,11 +1,11 @@
 from analyzers.scope.analyzer import *
-from analyzers.semantic.analyzer import Semantic_Analysis
+from analyzers.semantic.analyzer import SemanticAnalyzer
 from analyzers.syntatic.states import *
 import os
 from analyzers.syntatic.table_action import TableAction
 
 
-class SyntaticAnalysis:
+class SyntaticAnalyzer:
     lexical = None
     syntaticalError = False
 
@@ -54,7 +54,7 @@ class SyntaticAnalysis:
                 STACK.append(state)
                 action = self.table_action.get_action(state + 1, readToken)
                 cont+=1
-                Semantic_Analysis(self.lexical, rule, output_path)
+                SemanticAnalyzer(self.lexical, rule, output_path)
                 
             else:
                 self.syntaticalError = True

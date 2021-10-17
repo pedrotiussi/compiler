@@ -11,7 +11,7 @@ rLabel = ""
 hasErr = False
 StackSem = []
 
-def Semantic_Analysis(lexical, rule, output_path):
+def SemanticAnalyzer(lexical, rule, output_path):
 
     generated_code = open(output_path, "a+")
     
