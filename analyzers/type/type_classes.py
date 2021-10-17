@@ -46,9 +46,9 @@ class Type:
         self.n_size = None
 
 class object:
-    def __init__(self, n_name = None, pNext = None, e_kind = None, _ = None):
+    def __init__(self, n_name = None, p_next = None, e_kind = None, _ = None):
         self.n_name = n_name
-        self.pNext = pNext
+        self.pNext = p_next
         self.e_kind = e_kind
         self._ = None
 
@@ -127,14 +127,14 @@ class LP:
         self.list = list
 
 class TRU:
-    def __init__(self, type = None, val = None):
+    def __init__(self, type = None):
         self.type = type
-        self.val = val
+        self.val = True
 
 class FALS:
-    def __init__(self, type = None, val = None):
+    def __init__(self, type = None):
         self.type = type
-        self.val = val
+        self.val = False
 
 class CHR:
     def __init__(self, type = None,pos = None, val = None):
@@ -145,14 +145,14 @@ class CHR:
 class STR:
     def __init__(self, type = None, val = None, pos = None):
         self.type = type
-        self.val = val
         self.pos = pos
+        self.val = val
 
 class NUM:
     def __init__(self, type = None, val = None, pos = None):
         self.type = type
-        self.val = val
         self.pos = pos
+        self.val = val
 
 class t_attrib:
     def __init__(self, t_nont = None, n_size = None, _ = None):

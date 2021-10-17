@@ -1,8 +1,8 @@
 from analyzers.syntatic.states import *
 from analyzers.scope.analyzer import *
 from analyzers.scope.rules import *
-from analyzers.scope.classes import *
-from analyzers.scope.types import *
+from analyzers.type.type_classes import *
+from analyzers.type.constants import *
 from analyzers.semantic.global_variables import *
 
 
@@ -111,11 +111,11 @@ class SemanticAnalyzer():
             curFunction._.n_vars=n
 
         elif self.rule == TRUE_RULE:
-            TRU_ = t_attrib(TRU, None, TRU(bool_,True))
+            TRU_ = t_attrib(TRU, None, TRU(bool_))
             semantic_stack.append(TRU_)
 
         elif self.rule == FALSE_RULE:
-            FALS_ = t_attrib(FALS,None,FALS(bool_,False))
+            FALS_ = t_attrib(FALS,None,FALS(bool_))
             semantic_stack.append(FALS_)
 
         elif self.rule == CHR_RULE:

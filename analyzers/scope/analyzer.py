@@ -1,7 +1,7 @@
 from analyzers.lexical.analyzer import *
 from analyzers.scope.rules import *
-from analyzers.scope.classes import *
-from analyzers.scope.types import *
+from analyzers.type.type_classes import *
+from analyzers.type.constants import *
 
 int_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
 char_ = object(-1, None, SCALAR_TYPE_, Type(None,1))
