@@ -63,6 +63,12 @@ class SyntaticAnalyzer:
                 self.syntatic_error = True
                 print(f"Line {self.lexical.line}: sintax error")
                 break
+            
+            if action == 'acc':
+                print("Well done! Syntatic OK!\n")
         
-        print("Well done! Syntatic OK!")
+        
+        print('This code is semantically right.\n')
+        print(f'Code generated at output/{self.lexical.file_name}.\n')
         self.lexical.close_file()
+

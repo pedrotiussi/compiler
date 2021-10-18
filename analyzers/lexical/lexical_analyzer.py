@@ -277,7 +277,7 @@ class LexicalAnalyzer:
                 self.lexicalError = True
             token_Aux = self.next_token()
         if not self.lexicalError:
-            print ("So far so good! None lexical errors on your code!")
+            print ("So far so good! None lexical errors on your code!\n")
         self.file.seek(0)
         self.next_char = " "
 
