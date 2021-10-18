@@ -1,4 +1,4 @@
-from analyzers.lexical.analyzer import *
+from analyzers.lexical.lexical_analyzer import *
 from analyzers.scope.rules import *
 from analyzers.type.constants import *
 

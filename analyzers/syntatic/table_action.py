@@ -5,7 +5,7 @@ import csv
 
 class TableAction:
     def __init__(self):
-        self.TOKEN_TAB_ACTION = [
+        self.tokens = [
             INTEGER, CHAR, BOOLEAN, STRING, TYPE, EQUALS, ARRAY, LEFT_SQUARE,
             RIGHT_SQUARE, OF, STRUCT, LEFT_BRACES, RIGHT_BRACES, SEMI_COLON, 
             COLON, FUNCTION, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, COMMA, VAR, 
@@ -17,11 +17,11 @@ class TableAction:
             ID, TRUE, FALSE, CHR, STR, NUM, NB, MF, MC, NF, MT, ME, MW
         ]
 
-        self.TAB_ACTION_GOTO = list(csv.reader(open("table_action.csv","r"), delimiter = "\t"))
+        self.table_action = list(csv.reader(open("analyzers/syntatic/table_action.csv","r"), delimiter = "\t"))
 
-    def token_table(self, a):
-        return self.TOKEN_TAB_ACTION.index(a) + 1
+    def get_token_index(self, a):
+        return self.tokens.index(a) + 1
 
     def get_action(self, state, token):
-        action = self.TAB_ACTION_GOTO[state][self.token_table(token)]
+        action = self.table_action[state][self.get_token_index(token)]
         return action

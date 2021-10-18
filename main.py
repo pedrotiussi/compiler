@@ -1,7 +1,8 @@
-from analyzers.lexical.analyzer import LexicalAnalyzer
-from analyzers.syntatic.analyzer import SyntaticAnalyzer
 import sys
 import os
+from analyzers.lexical.lexical_analyzer import LexicalAnalyzer
+from analyzers.syntatic.syntatic_analyzer import SyntaticAnalyzer
+
 
 def run_compiler(input_file_path: str):
 

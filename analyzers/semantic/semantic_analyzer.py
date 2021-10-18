@@ -1,5 +1,5 @@
 from analyzers.syntatic.states import *
-from analyzers.scope.analyzer import *
+from analyzers.scope.scope_analyzer import *
 from analyzers.scope.rules import *
 from analyzers.type.type_classes import *
 from analyzers.type.constants import *

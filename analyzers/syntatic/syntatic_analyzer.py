@@ -1,5 +1,6 @@
-from analyzers.scope.analyzer import *
-from analyzers.semantic.analyzer import SemanticAnalyzer
+from analyzers.scope.scope_analyzer import *
+from analyzers.lexical.lexical_analyzer import LexicalAnalyzer
+from analyzers.semantic.semantic_analyzer import SemanticAnalyzer
 from analyzers.syntatic.states import *
 import os
 from analyzers.syntatic.table_action import TableAction
@@ -9,8 +10,8 @@ class SyntaticAnalyzer:
     syntaticalError = False
 
     def __init__(self, lexical):
-        self.lexical = lexical
-        self.table_action = TableAction()
+        self.lexical: LexicalAnalyzer = lexical
+        self.table_action: TableAction = TableAction()
 
     def parse(self):
 
@@ -64,3 +65,4 @@ class SyntaticAnalyzer:
                 break
         
         print("Well done! Syntatic OK!")
+        self.lexical.close_file()

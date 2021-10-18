@@ -280,3 +280,6 @@ class LexicalAnalyzer:
             print ("So far so good! None lexical errors on your code!")
         self.file.seek(0)
         self.next_char = " "
+
+    def close_file(self):
+        self.file.close()
